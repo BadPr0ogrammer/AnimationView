@@ -98,9 +98,4 @@
       <Filter>Resource Files</Filter>
     </QtRcc>
   </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="myMainWindow.ui">
-      <Filter>Resource Files</Filter>
-    </QtUic>
-  </ItemGroup>
 </Project>
