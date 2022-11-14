@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../../lib64/SimpleParaView/SimpleParaViewCustomFilters/libElevationFilters.a CMakeFiles/ElevationFilters.dir/vtkMyElevationFilter.cxx.o
+/usr/bin/ranlib ../../../lib64/SimpleParaView/SimpleParaViewCustomFilters/libElevationFilters.a

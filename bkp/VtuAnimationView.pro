@@ -1,0 +1,520 @@
+TEMPLATE = app
+
+QT += widgets help
+
+CONFIG += debug
+
+QMAKE_CXXFLAGS += -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden
+
+FORMS = myMainWindow.ui
+
+DEFINES += \
+    PARAVIEW_RELATIVE_LIBPATH="$(../lib64)" \
+    PARAVIEW_SUBDIR="$(paraview-5.11/plugins)" \
+    QTTESTING_EXPORT='' \
+    PQCORE_EXPORT='' \
+
+SOURCES += \
+    ColorTables.cpp \
+    ParseFileName.cpp \
+    ReadFiles.cpp \
+    Settings.cpp \
+    SetupDlg.cpp \
+    main.cpp \
+    mouseinteractorstyle.cpp \
+    myloaddatareaction.cpp \
+    mymainwindow.cpp \
+    vtuanimationview.cpp \
+
+#paraview/Qt/Core/moc_pqInterfaceTracker.cpp \
+#paraview/build/Remoting/ServerManager/vtkPVMessage.pb.cc \
+#/home/mikeuser/VtuAnimationView/paraview/ThirdParty/protobuf/vtkprotobuf/src \
+#/home/mikeuser/VtuAnimationView/paraview/ThirdParty/protobuf \
+
+HEADERS += \
+        ColorTables.h \
+        ParseFileName.h \
+        ReadFiles.h \
+        Settings.h \
+        SetupDlg.h \
+        mouseinteractorstyle.h \
+    myloaddatareaction.h \
+    mymainwindow.h \
+        vtuanimationview.h \
+
+
+INCLUDEPATH += \
+    /home/mikeuser/protobuf-bin/include \
+    /home/mikeuser/paraview-bin/include/paraview-5.11 \
+    /home/mikeuser/paraview-bin/include/paraview-5.11/vtkqttesting \
+    /home/mikeuser/paraview-bin/include/paraview-5.11/vtkdoubleconversion \
+    /home/mikeuser/paraview/build/Qt/Core/pqCore_autogen/include \
+    /home/mikeuser/paraview/build/Qt/Components/pqComponents_autogen/include \
+    /home/mikeuser/paraview/build/Remoting/ServerManager \
+#/home/mikeuser/protobuf/src/google/protobuf \
+#/home/mikeuser/VtuAnimationView/paraview/build/ThirdParty/protobuf \
+
+RESOURCES += VtuAnimationView.qrc
+
+LIBS += \
+    -L/home/mikeuser/protobuf-bin/lib64 \
+    -L/home/mikeuser/paraview-bin/lib64 \
+    -lpqCore-pv5.11 \
+    -lpqComponents-pv5.11 \
+    -lpqApplicationComponents-pv5.11 \
+    -lvtkCommonColor-pv5.11 \
+    -lvtkCommonCore-pv5.11 \
+    -lvtkCommonMisc-pv5.11 \
+    -lvtkCommonDataModel-pv5.11 \
+    -lvtkCommonExecutionModel-pv5.11 \
+    -lvtkCommonSystem-pv5.11 \
+    -lvtkFiltersCore-pv5.11 \
+    -lvtkFiltersExtraction-pv5.11 \
+    -lvtkFiltersGeneral-pv5.11 \
+    -lvtkFiltersGeneric-pv5.11 \
+    -lvtkFiltersGeometry-pv5.11 \
+    -lvtkFiltersModeling-pv5.11 \
+    -lvtkFiltersPoints-pv5.11 \
+    -lvtkGUISupportQt-pv5.11 \
+    -lvtkIOCore-pv5.11 \
+    -lvtkIOExport-pv5.11 \
+    -lvtkIOGeometry-pv5.11 \
+    -lvtkIOXML-pv5.11 \
+    -lvtkIOXMLParser-pv5.11 \
+    -lvtkInteractionStyle-pv5.11 \
+    -lvtkParallelCore-pv5.11 \
+    -lvtkRenderingImage-pv5.11 \
+    -lvtkInteractionWidgets-pv5.11 \
+    -lvtkRenderingAnnotation-pv5.11 \
+    -lvtkRenderingContext2D-pv5.11 \
+    -lvtkRenderingContextOpenGL2-pv5.11 \
+    -lvtkRenderingCore-pv5.11 \
+    -lvtkRenderingFreeType-pv5.11 \
+    -lvtkRenderingLabel-pv5.11 \
+    -lvtkRenderingOpenGL2-pv5.11 \
+    -lvtkRenderingUI-pv5.11 \
+    -lvtkpugixml-pv5.11 \
+    -lvtksys-pv5.11 \
+    -lvtkCommonTransforms-pv5.11 \
+    -lvtkCommonMath-pv5.11 \
+    -lvtkParallelDIY-pv5.11 \
+    -lvtkCommonComputationalGeometry-pv5.11 \
+    -lvtkfmt-pv5.11 \
+    -lvtkFiltersSources-pv5.11 \
+    -lvtkIOImage-pv5.11 \
+    -lvtkdoubleconversion-pv5.11 \
+    -lvtklz4-pv5.11 \
+    -lvtkzlib-pv5.11 \
+    -lvtkjsoncpp-pv5.11 \
+    -lvtkIOLegacy-pv5.11 \
+    -lvtkFiltersHyperTree-pv5.11 \
+    -lvtkRemotingServerManager-pv5.11 \
+    -lprotobuf \
+    -lX11
+
+
+
+#paraview/Qt/Core/pqInterfaceTracker.cxx \
+#paraview/Qt/Core/vtkPVGUIPluginInterface.cxx \
+#paraview/Qt/Core/pqDataRepresentation.cxx \
+#paraview/Qt/Core/pqRepresentation.cxx \
+#paraview/Qt/Core/pqProxy.cxx \
+#paraview/Qt/Core/pqServerManagerModelItem.cxx \
+#paraview/Qt/Core/pqOutputPort.cxx \
+#paraview/Qt/Core/pqSMAdaptor.cxx \
+#paraview/Qt/Core/pqSMProxy.cxx \
+#paraview/Qt/Core/pqPipelineSource.cxx \
+#paraview/Qt/Core/pqServer.cxx \
+#paraview/Qt/Core/pqServerResource.cxx \
+#paraview/Qt/Core/pqApplicationCore.cxx \
+#paraview/Qt/Core/pqServerManagerModel.cxx \
+#paraview/Qt/Core/pqServerManagerObserver.cxx \
+#paraview/Qt/Core/pqTimeKeeper.cxx \
+#paraview/Qt/Core/pqUndoStack.h \
+#paraview/Qt/Core/pqView.cxx \
+#paraview/Qt/Core/pqCoreUtilities.cxx \
+#paraview/Qt/Core/pqSettings.cxx \
+#paraview/Qt/Core/pqPipelineFilter.cxx \
+#paraview/Qt/Core/pqXMLUtil.cxx \
+#paraview/Qt/Core/pqServerConfiguration.cxx \
+#paraview/Qt/Core/pqAnimationScene.cxx \
+#paraview/Qt/Core/pqCoreConfiguration.cxx \
+#paraview/Qt/Core/pqCoreInit.cxx \
+#paraview/Qt/Core/pqCoreTestUtility.cxx \
+#paraview/Qt/Core/pqLinksModel.cxx \
+#paraview/Qt/Core/pqMainWindowEventManager.cxx \
+#paraview/Qt/Core/pqObjectBuilder.cxx \
+#paraview/Qt/Core/pqOptions.cxx \
+#paraview/Qt/Core/pqPluginManager.cxx \
+#paraview/Qt/Core/pqProgressManager.cxx \
+#paraview/Qt/Core/pqScalarsToColors.cxx \
+#paraview/Qt/Core/pqRecentlyUsedResourcesList.cxx \
+#paraview/Qt/Core/pqExtractor.cxx \
+#paraview/Qt/Core/pqServerManagerModelInterface.cxx \
+#paraview/Qt/Core/pqRenderView.cxx \
+#paraview/Qt/Core/pqRenderViewBase.cxx \
+#paraview/Qt/Core/pqServerConfigurationCollection.cxx \
+#paraview/Qt/Core/pqStandardServerManagerModelInterface.cxx \
+#paraview/Qt/Core/pqQVTKWidget.cxx \
+#paraview/Qt/Core/pqAnimationCue.cxx \
+#paraview/Qt/Core/pqInteractiveViewLink.cxx \
+#paraview/Qt/Core/pqCollaborationEventPlayer.cxx \
+#paraview/Qt/Core/pqPipelineRepresentation.cxx \
+#paraview/Qt/Core/pqScalarBarRepresentation.cxx \
+#paraview/Qt/Core/pqProxyModifiedStateUndoElement.cxx \
+#paraview/Qt/Core/pqBoxChartView.cxx \
+#paraview/Qt/Core/pqContextView.cxx \
+#paraview/Qt/Core/pqImageUtil.cxx \
+#paraview/Qt/Core/pqLinkViewWidget.cxx \
+#paraview/Qt/Core/pqCollaborationManager.cxx \
+#paraview/Qt/Core/pqProxySelection.cxx \
+#paraview/Qt/Core/pqPropertyLinks.cxx \
+#paraview/Qt/Core/pqPropertyLinksConnection.cxx \
+#paraview/Qt/Components/pqTabbedMultiViewWidget.cxx \
+#paraview/Qt/Components/pqActiveObjects.cxx \
+#paraview/Qt/Components/pqMultiViewWidget.cxx \
+#paraview/Qt/Components/pqViewFrame.cxx \
+#paraview/Qt/Components/pqViewFrameActionsInterface.cxx \
+#paraview/Qt/Widgets/pqDoubleLineEdit.cxx \
+#paraview/Qt/Widgets/pqLineEdit.cxx \
+#paraview/Qt/Widgets/pqHierarchicalGridWidget.cxx \
+#paraview/Qt/Widgets/pqHierarchicalGridLayout.cxx \
+#paraview/Qt/Widgets/pqSetName.cxx \
+#paraview/Remoting/Core/vtkPVPluginTracker.cxx \
+#paraview/Remoting/Core/vtkRemotingCoreConfiguration.cxx \
+#paraview/Remoting/Core/vtkPVPlugin.cxx \
+#paraview/Remoting/Core/vtkPVDynamicInitializerPluginInterface.cxx \
+#paraview/Remoting/Core/vtkPVPluginLoader.cxx \
+#paraview/Remoting/Core/vtkPResourceFileLocator.cxx \
+#paraview/Remoting/Core/vtkDisplayConfiguration.cxx \
+#paraview/Remoting/Core/vtkProcessModule.cxx \
+#paraview/Remoting/Core/vtkProcessModuleConfiguration.cxx \
+#paraview/Remoting/Core/vtkSessionIterator.cxx \
+#paraview/Remoting/Core/vtkTCPNetworkAccessManager.cxx \
+#paraview/Remoting/Core/vtkNetworkAccessManager.cxx \
+#paraview/Remoting/Core/vtkPVPythonPluginInterface.cxx \
+#paraview/Remoting/Core/vtkPVServerManagerPluginInterface.cxx \
+#paraview/Remoting/Core/vtkPVPythonModule.cxx \
+#paraview/Remoting/Core/vtkPVArrayInformation.cxx \
+#paraview/Remoting/Core/vtkPVClassNameInformation.cxx \
+#paraview/Remoting/Core/vtkPVInformation.cxx \
+#paraview/Remoting/Core/vtkPVDataInformation.cxx \
+#paraview/Remoting/Core/vtkPVSession.cxx \
+#paraview/Remoting/Core/vtkPVDataSetAttributesInformation.cxx \
+#paraview/Remoting/Core/vtkPVServerInformation.cxx \
+#paraview/Remoting/Core/vtkPVPluginsInformation.cxx \
+#paraview/Remoting/Core/vtkPVProgressHandler.cxx \
+#paraview/Remoting/Core/vtkCompositeMultiProcessController.cxx \
+#paraview/Remoting/Core/vtkPVTemporalDataInformation.cxx \
+#paraview/Remoting/Core/vtkMPIMToNSocketConnectionPortInformation.cxx \
+#paraview/Remoting/Core/vtkMPIMToNSocketConnection.cxx \
+#paraview/Remoting/Core/vtkPVAlgorithmPortsInformation.cxx \
+#paraview/Remoting/ClientServerStream/vtkClientServerInterpreterInitializer.cxx \
+#paraview/Remoting/ClientServerStream/vtkClientServerInterpreter.cxx \
+#paraview/Remoting/ClientServerStream/vtkClientServerID.cxx \
+#paraview/Remoting/ClientServerStream/vtkClientServerStream.cxx \
+#paraview/Remoting/ClientServerStream/vtkClientServerStreamInstantiator.cxx \
+#paraview/Remoting/ServerManager/vtkSMDeserializerProtobuf.cxx \
+#paraview/Remoting/ServerManager/vtkSMProperty.cxx \
+#paraview/Remoting/ServerManager/vtkSMDomainIterator.cxx \
+#paraview/Remoting/ServerManager/vtkSMOutputPort.cxx \
+#paraview/Remoting/ServerManager/vtkSMProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMPropertyIterator.cxx \
+#paraview/Remoting/ServerManager/vtkSMRemoteObject.cxx \
+#paraview/Remoting/ServerManager/vtkSMSessionObject.cxx \
+#paraview/Remoting/ServerManager/vtkSMPropertyHelper.cxx \
+#paraview/Remoting/ServerManager/vtkSMSourceProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMProxyIterator.cxx \
+#paraview/Remoting/ServerManager/vtkSMProxyManager.cxx \
+#paraview/Remoting/ServerManager/vtkSMSession.cxx \
+#paraview/Remoting/ServerManager/vtkPVSessionBase.cxx \
+#paraview/Remoting/ServerManager/vtkSMSessionProxyManager.cxx \
+#paraview/Remoting/ServerManager/vtkSMTrace.cxx \
+#paraview/Remoting/ServerManager/vtkSMPropertyLink.cxx \
+#paraview/Remoting/ServerManager/vtkSMLink.cxx \
+#paraview/Remoting/ServerManager/vtkSMArrayListDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMProxyProperty.cxx \
+#paraview/Remoting/ServerManager/vtkSMArrayRangeDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMDoubleRangeDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMStringListDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMCollaborationManager.cxx \
+#paraview/Remoting/ServerManager/vtkSMMessage.cxx \
+#paraview/Remoting/ServerManager/vtkSMArraySelectionDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMInputProperty.cxx \
+#paraview/Remoting/ServerManager/vtkSMStringVectorProperty.cxx \
+#paraview/Remoting/ServerManager/vtkSMVectorProperty.cxx \
+#paraview/Remoting/ServerManager/vtkSMCompositeTreeDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMDoubleVectorProperty.cxx \
+#paraview/Remoting/ServerManager/vtkSMEnumerationDomain.cxx \
+#paraview/Remoting/ServerManager/vtkPVProxyDefinitionIterator.cxx \
+#paraview/Remoting/ServerManager/vtkSMIntVectorProperty.cxx \
+#paraview/Remoting/ServerManager/vtkSMParaViewPipelineController.cxx \
+#paraview/Remoting/ServerManager/vtkSMProxyDefinitionManager.cxx \
+#paraview/Remoting/ServerManager/vtkSIProxyDefinitionManager.cxx \
+#paraview/Remoting/ServerManager/vtkSIObject.cxx \
+#paraview/Remoting/ServerManager/vtkSMSessionClient.cxx \
+#paraview/Remoting/ServerManager/vtkSMTimeKeeperProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMExtentDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMIntRangeDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMFileListDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMOrderedPropertyIterator.cxx \
+#paraview/Remoting/ServerManager/vtkSMIdTypeVectorProperty.cxx \
+#paraview/Remoting/ServerManager/vtkSMProxyGroupDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMUncheckedPropertyHelper.cxx \
+#paraview/Remoting/ServerManager/vtkSMProxySelectionModel.cxx \
+#paraview/Remoting/ServerManager/vtkSMProxyLink.cxx \
+#paraview/Remoting/ServerManager/vtkSMCoreUtilities.cxx \
+#paraview/Remoting/ServerManager/vtkSMSettings.cxx \
+#paraview/Remoting/ServerManager/vtkSMProxyLocator.cxx \
+#paraview/Remoting/ServerManager/vtkSMReaderFactory.cxx \
+#paraview/Remoting/ServerManager/vtkSMWriterFactory.cxx \
+#paraview/Remoting/ServerManager/vtkSMPluginLoaderProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMExtractsController.cxx \
+#paraview/Remoting/ServerManager/vtkSMPluginManager.cxx \
+#paraview/Remoting/ServerManager/vtkSMUndoStack.cxx \
+#paraview/Remoting/ServerManager/vtkPVMultiClientsInformation.cxx \
+#paraview/Remoting/ServerManager/vtkSMDocumentation.cxx \
+#paraview/Remoting/ServerManager/vtkSMPropertyGroup.cxx \
+#paraview/Remoting/ServerManager/vtkSIProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMCompoundSourceProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMUndoStackBuilder.cxx \
+#paraview/Remoting/ServerManager/vtkPVCatalystSessionCore.cxx \
+#paraview/Remoting/ServerManager/vtkPVSessionCore.cxx \
+#paraview/Remoting/ServerManager/vtkSMDeserializer.cxx \
+#paraview/Remoting/ServerManager/vtkSMPipelineState.cxx \
+#paraview/Remoting/ServerManager/vtkSMSettingsProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMStateLoader.cxx \
+#paraview/Remoting/ServerManager/vtkSMDeserializerXML.cxx \
+#paraview/Remoting/ServerManager/vtkSMStateLocator.cxx \
+#paraview/Remoting/ServerManager/vtkSMInputArrayDomain.cxx \
+#paraview/Remoting/ServerManager/vtkSMProxyInitializationHelper.cxx \
+#paraview/Remoting/ServerManager/vtkSMTimeKeeper.cxx \
+#paraview/Remoting/ServerManager/vtkPVSessionServer.cxx \
+#paraview/Remoting/ServerManager/vtkSMRemoteObjectUpdateUndoElement.cxx \
+#paraview/Remoting/ServerManager/vtkRemoteWriterHelper.cxx \
+#paraview/Remoting/ServerManager/vtkSIProperty.cxx \
+#paraview/Remoting/ServerManager/vtkSMExtractTriggerProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMCompoundProxyDefinitionLoader.cxx \
+#paraview/Remoting/ServerManager/vtkSISourceProxy.cxx \
+#paraview/Remoting/ServerManager/vtkPVSessionCoreInterpreterHelper.cxx \
+#paraview/Remoting/ServerManager/vtkSMExtractWriterProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMFileUtilities.cxx \
+#paraview/Remoting/ServerManager/vtkSMDirectoryProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMPropertyModificationUndoElement.cxx \
+#paraview/Remoting/ServerManager/vtkSMUndoElement.cxx \
+#paraview/Remoting/ServerManager/vtkSMServerStateLocator.cxx \
+#paraview/Remoting/ServerManager/vtkSMWriterProxy.cxx \
+#paraview/Remoting/ServerManager/vtkSMNamedPropertyIterator.cxx \
+#paraview/Remoting/Settings/vtkPVGeneralSettings.cxx \
+#paraview/Remoting/Views/vtkPVProminentValuesInformation.cxx \
+#paraview/Remoting/Views/vtkSMRepresentationProxy.cxx \
+#paraview/Remoting/Views/vtkSMParaViewPipelineControllerWithRendering.cxx \
+#paraview/Remoting/Views/vtkSMViewProxy.cxx \
+#paraview/Remoting/Views/vtkPVView.cxx \
+#paraview/Remoting/Views/vtkSMPVRepresentationProxy.cxx \
+#paraview/Remoting/Views/vtkSMUtilities.cxx \
+#paraview/Remoting/Views/vtkSMCameraLink.cxx \
+#paraview/Remoting/Views/vtkSMRenderViewProxy.cxx \
+#paraview/Remoting/Views/vtkSMViewLayoutProxy.cxx \
+#paraview/Remoting/Views/vtkSMSelectionLink.cxx \
+#paraview/Remoting/Views/vtkSMTransferFunctionProxy.cxx \
+#paraview/Remoting/Views/vtkSMViewProxyInteractorHelper.cxx \
+#paraview/Remoting/Views/vtkPVRenderView.cxx \
+#paraview/Remoting/Views/vtkPVRenderViewSettings.cxx \
+#paraview/Remoting/Views/vtkSMSelectionHelper.cxx \
+#paraview/Remoting/Views/vtkPVInteractiveViewLinkRepresentation.cxx \
+#paraview/Remoting/Views/vtkSMContextViewProxy.cxx \
+#paraview/Remoting/Views/vtkSMSaveScreenshotProxy.cxx \
+#paraview/Remoting/Views/vtkPVDataRepresentation.cxx \
+#paraview/Remoting/Views/vtkPVRepresentedDataInformation.cxx \
+#paraview/Remoting/Views/vtkPVDataDeliveryManager.cxx \
+#paraview/Remoting/Views/vtkPVProcessWindow.cxx \
+#paraview/Remoting/Views/vtkSMScalarBarWidgetRepresentationProxy.cxx \
+#paraview/Remoting/Views/vtkPVRenderingCapabilitiesInformation.cxx \
+#paraview/Remoting/Views/vtkSMMaterialLibraryProxy.cxx \
+#paraview/Remoting/Views/vtkSMNewWidgetRepresentationProxy.cxx \
+#paraview/Remoting/Views/vtkViewLayout.cxx \
+#paraview/Remoting/Views/vtkSMNewWidgetRepresentationProxyAbstract.cxx \
+#paraview/Remoting/Views/vtkSMComparativeViewProxy.cxx \
+#paraview/Remoting/Views/vtkSMTransferFunction2DProxy.cxx \
+#paraview/Remoting/Views/vtkPVEncodeSelectionForServer.cxx \
+#paraview/Remoting/Views/vtkSMDataDeliveryManagerProxy.cxx \
+#paraview/Remoting/Views/vtk3DWidgetRepresentation.cxx \
+#paraview/Remoting/Views/vtkCompositeRepresentation.cxx \
+#paraview/Remoting/Views/vtkOrderedCompositingHelper.cxx \
+#paraview/Remoting/Views/vtkPVSelectionInformation.cxx \
+#paraview/Remoting/Views/vtkPVAxesWidget.cxx \
+#paraview/Remoting/Views/vtkPVCameraCollection.cxx \
+#paraview/Remoting/Views/vtkSMTransferFunctionPresets.cxx \
+#paraview/Remoting/Views/vtkPVCenterAxesActor.cxx \
+#paraview/Remoting/Views/vtkPVClientServerSynchronizedRenderers.cxx \
+#paraview/Remoting/Views/vtkPVCompositeRepresentation.cxx \
+#paraview/Remoting/Views/vtkPVGridAxes3DActor.cxx \
+#paraview/Remoting/Views/vtkPVContextView.cxx \
+#paraview/Remoting/Views/vtkPVDataRepresentationPipeline.cxx \
+#paraview/Remoting/Views/vtkSMWidgetRepresentationProxy.cxx \
+#paraview/Remoting/Views/vtkPVMaterialLibrary.cxx \
+#paraview/Remoting/Views/vtkPVComparativeView.cxx \
+#paraview/Remoting/Views/vtkPVTransferFunction2DBox.cxx \
+#paraview/Remoting/Views/vtkGridAxes3DActor.cxx \
+#paraview/Remoting/Views/vtkPVStreamingPiecesInformation.cxx \
+#paraview/Remoting/Views/vtkGeometryRepresentation.cxx \
+#paraview/Remoting/Views/vtkPVAxesActor.cxx \
+#paraview/Remoting/Views/vtkGridAxesHelper.cxx \
+#paraview/Remoting/Views/vtkPVGridAxes3DRepresentation.cxx \
+#paraview/Remoting/Views/vtkPolarAxesRepresentation.cxx \
+#paraview/Remoting/Views/vtkSelectionRepresentation.cxx \
+#paraview/Remoting/Views/vtkChartRepresentation.cxx \
+#paraview/Remoting/Views/vtkPVContextInteractorStyle.cxx \
+#paraview/Remoting/Views/vtkPVHardwareSelector.cxx \
+#paraview/Remoting/Views/vtkPVComparativeAnimationCue.cxx \
+#paraview/Remoting/Views/vtkSMComparativeAnimationCueProxy.cxx \
+#paraview/Remoting/Views/vtkGridAxes2DActor.cxx \
+#paraview/Remoting/Views/vtkPVRenderViewDataDeliveryManager.cxx \
+#paraview/Remoting/Views/vtkGridAxesPlane2DActor.cxx \
+#paraview/Remoting/Views/vtkPVSynchronizedRenderer.cxx \
+#paraview/Remoting/Views/vtkDataLabelRepresentation.cxx \
+#paraview/Remoting/Views/vtkPVLODActor.cxx \
+#paraview/Remoting/Views/vtkChartSelectionRepresentation.cxx \
+#paraview/Remoting/Views/vtkSMComparativeAnimationCueUndoElement.cxx \
+#paraview/Remoting/Views/vtkTilesHelper.cxx \
+#paraview/Remoting/Views/vtkCaveSynchronizedRenderers.cxx \
+#paraview/Remoting/Views/vtkPVDefaultPass.cxx \
+#paraview/Remoting/Application/vtkInitializationHelper.cxx \
+#paraview/Remoting/Animation/vtkSMAnimationSceneProxy.cxx \
+#paraview/Remoting/Animation/vtkCompositeAnimationPlayer.cxx \
+#paraview/Remoting/Animation/vtkAnimationPlayer.cxx \
+#paraview/Remoting/Animation/vtkSMAnimationScene.cxx \
+#paraview/Remoting/Animation/vtkRealtimeAnimationPlayer.cxx \
+#paraview/Remoting/Animation/vtkPVCameraAnimationCue.cxx \
+#paraview/Remoting/Animation/vtkPVKeyFrameAnimationCue.cxx \
+#paraview/Remoting/Animation/vtkPVAnimationCue.cxx \
+#paraview/Remoting/Animation/vtkSequenceAnimationPlayer.cxx \
+#paraview/Remoting/Animation/vtkTimestepsAnimationPlayer.cxx \
+#paraview/Remoting/Animation/vtkPVKeyFrameCueManipulator.cxx \
+#paraview/Remoting/Animation/vtkPVCameraCueManipulator.cxx \
+#paraview/Remoting/Animation/vtkPVCueManipulator.cxx \
+#paraview/Remoting/Animation/vtkPVKeyFrame.cxx \
+#paraview/Remoting/Animation/vtkPVCameraKeyFrame.cxx \
+#paraview/Remoting/Animation/vtkCameraInterpolator2.cxx \
+#paraview/Remoting/Misc/vtkSMInteractionUndoStackBuilder.cxx \
+#paraview/VTKExtensions/Core/vtkPVLogger.cxx \
+#paraview/VTKExtensions/Core/vtkPVXMLElement.cxx \
+#paraview/VTKExtensions/Core/vtkPVXMLParser.cxx \
+#paraview/VTKExtensions/Core/vtkCLIOptions.cxx \
+#paraview/VTKExtensions/Core/vtkStringList.cxx \
+#paraview/VTKExtensions/Core/vtkUndoElement.cxx \
+#paraview/VTKExtensions/Core/vtkUndoStack.cxx \
+#paraview/VTKExtensions/Core/vtkPVPostFilter.cxx \
+#paraview/VTKExtensions/Core/vtkPVInformationKeys.cxx \
+#paraview/VTKExtensions/Core/vtkPVStringFormatter.cxx \
+#paraview/VTKExtensions/Core/vtkUndoSet.cxx \
+#paraview/VTKExtensions/Core/vtkPVCompositeDataPipeline.cxx \
+#paraview/VTKExtensions/Core/vtkPVTrivialProducer.cxx \
+#paraview/VTKExtensions/Core/vtkPVPostFilterExecutive.cxx \
+#paraview/VTKExtensions/Core/vtkMultiProcessControllerHelper.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkMPIMoveData.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkImageTransparencyFilter.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkLZ4Compressor.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkImageCompressor.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkSquirtCompressor.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkCSVExporter.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkZlibImageCompressor.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkPVGeometryFilter.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkBlockDeliveryPreprocessor.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkClientServerMoveData.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkOrderedCompositeDistributor.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkAllToNRedistributeCompositePolyData.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkPVRecoverGeometryWireframe.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkAllToNRedistributePolyData.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkWeightedRedistributePolyData.cxx \
+#paraview/VTKExtensions/FiltersRendering/vtkRedistributePolyData.cxx \
+#paraview/VTKExtensions/Extraction/vtkPVSelectionSource.cxx \
+#paraview/VTKExtensions/Misc/vtkSelectionSerializer.cxx \
+#paraview/VTKExtensions/Misc/vtkPVChangeOfBasisHelper.cxx \
+#paraview/VTKExtensions/Misc/vtkPVMergeTablesMultiBlock.cxx \
+#paraview/VTKExtensions/Misc/vtkReductionFilter.cxx \
+#paraview/VTKExtensions/Misc/vtkMergeBlocks.cxx \
+#paraview/VTKExtensions/Misc/vtkAttributeDataToTableFilter.cxx \
+#paraview/VTKExtensions/Misc/vtkCleanArrays.cxx \
+#paraview/VTKExtensions/InteractionStyle/vtkPVInteractorStyle.cxx \
+#paraview/VTKExtensions/InteractionStyle/vtkPVTrackballEnvironmentRotate.cxx \
+#paraview/VTKExtensions/InteractionStyle/vtkCameraManipulator.cxx \
+#paraview/VTKExtensions/InteractionStyle/vtkPVTrackballMultiRotate.cxx \
+#paraview/VTKExtensions/InteractionStyle/vtkPVTrackballRoll.cxx \
+#paraview/VTKExtensions/InteractionStyle/vtkPVTrackballRotate.cxx \
+#paraview/VTKExtensions/InteractionStyle/vtkPVTrackballZoom.cxx \
+#paraview/VTKExtensions/InteractionStyle/vtkPVTrackballZoomToMouse.cxx \
+#paraview/VTKExtensions/InteractionStyle/vtkTrackballPan.cxx \
+#paraview/VTKExtensions/InteractionStyle/vtkCameraManipulatorGUIHelper.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqTimer.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pq3DViewEventPlayer.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqEventDispatcher.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqTestUtility.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqEventPlayer.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqEventRecorder.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqEventTranslator.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqWidgetEventPlayer.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqEventObserver.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqAbstractActivateEventPlayer.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pq3DViewEventTranslator.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqWidgetEventTranslator.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqAbstractButtonEventTranslator.cxx \
+#paraview/ThirdParty/QtTesting/vtkqttesting/pqAbstractBooleanEventPlayer.cxx \
+#paraview/VTK/Rendering/Parallel/vtkSynchronizedRenderers.cxx \
+#paraview/VTK/Rendering/Parallel/vtkParallelRenderManager.cxx \
+#paraview/VTK/Filters/ParallelDIY2/vtkDIYKdTreeUtilities.cxx \
+#paraview/VTK/Filters/ParallelDIY2/vtkRedistributeDataSetFilter.cxx \
+#paraview/VTK/Rendering/Parallel/vtkCompositedSynchronizedRenderers.cxx \
+#paraview/VTK/Rendering/Parallel/vtkTreeCompositer.cxx \
+#paraview/VTK/Rendering/Parallel/vtkCompositer.cxx \
+
+#/home/mikeuser/VtuAnimationView/paraview/build/Qt/Core \
+#/home/mikeuser/VtuAnimationView/paraview/Qt/Core \
+#/home/mikeuser/VtuAnimationView/paraview/build/Qt/Components \
+#/home/mikeuser/VtuAnimationView/paraview/build/Qt/Components/pqComponents_autogen/include \
+#/home/mikeuser/VtuAnimationView/paraview/Qt/Components \
+#/home/mikeuser/VtuAnimationView/paraview/build/Qt/Widgets \
+#/home/mikeuser/VtuAnimationView/paraview/Qt/Widgets \
+#/home/mikeuser/VtuAnimationView/paraview/build/Qt/Core/pqCore_autogen/include \
+#/home/mikeuser/VtuAnimationView/paraview/build/Remoting/Core \
+#/home/mikeuser/VtuAnimationView/paraview/Remoting/Core \
+#/home/mikeuser/VtuAnimationView/paraview/build/Remoting/ClientServerStream \
+#/home/mikeuser/VtuAnimationView/paraview/Remoting/ClientServerStream \
+#/home/mikeuser/VtuAnimationView/paraview/build/Remoting/ServerManager \
+#/home/mikeuser/VtuAnimationView/paraview/Remoting/ServerManager \
+#/home/mikeuser/VtuAnimationView/paraview/build/VTKExtensions/Core \
+#/home/mikeuser/VtuAnimationView/paraview/VTKExtensions/Core \
+#/home/mikeuser/VtuAnimationView/paraview/build/VTK/ThirdParty/cli11 \
+#/home/mikeuser/VtuAnimationView/paraview/VTK/ThirdParty/cli11 \
+#/home/mikeuser/VtuAnimationView/paraview/build/ThirdParty/QtTesting/vtkqttesting \
+#/home/mikeuser/VtuAnimationView/paraview/ThirdParty/QtTesting/vtkqttesting \
+#/home/mikeuser/VtuAnimationView/paraview/build/Remoting/Settings \
+#/home/mikeuser/VtuAnimationView/paraview/Remoting/Settings \
+#/home/mikeuser/VtuAnimationView/paraview/build/Remoting/Views \
+#/home/mikeuser/VtuAnimationView/paraview/Remoting/Views \
+#/home/mikeuser/VtuAnimationView/paraview/build/Remoting/Application \
+#/home/mikeuser/VtuAnimationView/paraview/Remoting/Application \
+#/home/mikeuser/VtuAnimationView/paraview/Remoting/Animation \
+#/home/mikeuser/VtuAnimationView/paraview/build/Remoting/Misc \
+#/home/mikeuser/VtuAnimationView/paraview/Remoting/Misc \
+#/home/mikeuser/VtuAnimationView/paraview/build/Remoting/Animation \
+#/home/mikeuser/VtuAnimationView/paraview/build/VTKExtensions/FiltersRendering \
+#/home/mikeuser/VtuAnimationView/paraview/VTKExtensions/FiltersRendering \
+#/home/mikeuser/VtuAnimationView/paraview/build/VTKExtensions/Extraction \
+#/home/mikeuser/VtuAnimationView/paraview/VTKExtensions/Extraction \
+#/home/mikeuser/VtuAnimationView/paraview/build/VTKExtensions/Misc \
+#/home/mikeuser/VtuAnimationView/paraview/VTKExtensions/Misc \
+#/home/mikeuser/VtuAnimationView/paraview/VTK/ThirdParty/doubleconversion \
+#/home/mikeuser/VtuAnimationView/paraview/build/ThirdParty/VTK/ThirdParty/doubleconversion/vtkdoubleconversion \
+#/home/mikeuser/VtuAnimationView/paraview/build/VTK/Rendering/Parallel \
+#/home/mikeuser/VtuAnimationView/paraview/VTK/Rendering/Parallel \
+#/home/mikeuser/VtuAnimationView/paraview/VTK/Rendering/Volume \
+#/home/mikeuser/VtuAnimationView/paraview/build/VTKExtensions/InteractionStyle \
+#/home/mikeuser/VtuAnimationView/paraview/VTKExtensions/InteractionStyle \
+#/home/mikeuser/VtuAnimationView/paraview/build/VTK/Filters/ParallelDIY2 \
+#/home/mikeuser/VtuAnimationView/paraview/VTK/Filters/ParallelDIY2 \
+#/home/mikeuser/VtuAnimationView/paraview/build/CMakeFiles/paraview_client_server \
+#/home/mikeuser/VtuAnimationView/paraview/build/CMakeFiles/paraview_server_manager \
+#/home/mikeuser/VtuAnimationView/paraview/VTK/ThirdParty/lz4/vtklz4/lib \

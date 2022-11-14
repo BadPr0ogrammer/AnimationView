@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/VtuAnimationView">
+        <file>res/document-open.png</file>
+        <file>res/media-playback-start.png</file>
+        <file>res/media-playback-stop.png</file>
+        <file>res/media-skip-backward.png</file>
+        <file>res/media-skip-forward.png</file>
+        <file>res/application-resize-actual.png</file>
+        <file>res/view-x-z.png</file>
+        <file>res/view-y-z.png</file>
+        <file>res/view-x-y.png</file>
+        <file>res/cell-picking.png</file>
+        <file>res/cross-button.png</file>
+        <file>res/film-timeline.png</file>
+        <file>res/logo.png</file>
+        <file>res/spectrum.png</file>
+        <file>res/gear.png</file>
+        <file>res/node-select-all.png</file>
+        <file>res/sc_hideslide.png</file>
+    </qresource>
+</RCC>

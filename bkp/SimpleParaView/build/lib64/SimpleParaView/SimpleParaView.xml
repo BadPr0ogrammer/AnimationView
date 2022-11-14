@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<Plugins>
+  <Plugin name="SimpleParaViewCustomFilters" auto_load="0"/>
+</Plugins>

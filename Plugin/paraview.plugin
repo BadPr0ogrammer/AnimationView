@@ -1,0 +1,10 @@
+NAME
+  GeomOptFilter
+DESCRIPTION
+  GeomOptFilter
+REQUIRES_MODULES
+  VTK::CommonExecutionModel
+  VTK::RemotingCore
+  VTK::FiltersCore
+  VTK::CommonCore
+  VTK::CommonDataModel

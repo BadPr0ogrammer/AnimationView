@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="/simple_paraview/Configuration">
+    <file alias="ParaViewFilters.xml">/home/mikeuser/VtuAnimationView/SimpleParaView/client/ParaViewFilters.xml</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QtHelpProject version="1.0">
+  <namespace>SimpleParaViewCustomFilters.org</namespace>
+  <virtualFolder>SimpleParaViewCustomFilters</virtualFolder>
+  <filterSection>
+    <toc>
+  <section title="SimpleParaViewCustomFilters" ref="filters.MyElevationFilter.html">
+    <section title="MyElevation" ref="filters.MyElevationFilter.html" />
+  </section>
+</toc>
+    <keywords>
+      <!-- TODO: how to handle keywords? -->
+    </keywords>
+    <files>
+      <file>filters.MyElevationFilter.html</file>
+
+    </files>
+  </filterSection>
+</QtHelpProject>

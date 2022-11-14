@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FCB2ECA8-94AC-3725-BA5B-D7063C409978}</ProjectGuid>
+    <RootNamespace>VtuAnimationView</RootNamespace>
+    <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.20348.0</WindowsTargetPlatformMinVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <OutputDirectory>release\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>release\</IntermediateDirectory>
+    <PrimaryOutput>VtuAnimationView</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <OutputDirectory>debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>debug\</IntermediateDirectory>
+    <PrimaryOutput>VtuAnimationView</PrimaryOutput>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>debug\</OutDir>
+    <IntDir>debug\</IntDir>
+    <TargetName>VtuAnimationView</TargetName>
+    <IgnoreImportLibrary>true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>release\</OutDir>
+    <IntDir>release\</IntDir>
+    <TargetName>VtuAnimationView</TargetName>
+    <IgnoreImportLibrary>true</IgnoreImportLibrary>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <QtModules>core;opengl;gui;widgets;opengl;openglwidgets</QtModules>
+    <QtBuildConfig>debug</QtBuildConfig>
+    <QtInstall>_qtbase</QtInstall>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <QtInstall>tools_qt5</QtInstall>
+    <QtModules>core;opengl;gui;widgets;libarchive</QtModules>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgConfiguration>Debug</VcpkgConfiguration>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgInstalledDir>..\..\..\src\vcpkg\installed</VcpkgInstalledDir>
+  </PropertyGroup>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;release;$(VTK_DIR)/Common/Color;$(VTK_ROOT)/Common/Color;$(VTK_DIR)/Common/Core;$(VTK_ROOT)/Common/Core;$(VTK_DIR)/Utilities/KWIML;$(VTK_ROOT)/Utilities/KWIML;$(VTK_DIR)/Utilities/KWSys;$(VTK_ROOT)/Utilities/KWSys;$(VTK_DIR)/Common/DataModel;$(VTK_ROOT)/Common/DataModel;$(VTK_DIR)/Common/Math;$(VTK_ROOT)/Common/Math;$(VTK_DIR)/ThirdParty/kissfft/vtkkissfft;$(VTK_ROOT)/ThirdParty/kissfft/vtkkissfft;$(VTK_DIR)/ThirdParty/kissfft;$(VTK_ROOT)/ThirdParty/kissfft;$(VTK_DIR)/Common/Transforms;$(VTK_ROOT)/Common/Transforms;$(VTK_DIR)/Filters/Core;$(VTK_ROOT)/Filters/Core;$(VTK_DIR)/Common/ExecutionModel;$(VTK_ROOT)/Common/ExecutionModel;$(VTK_DIR)/Common/Misc;$(VTK_ROOT)/Common/Misc;$(VTK_DIR)/Filters/Sources;$(VTK_ROOT)/Filters/Sources;$(VTK_DIR)/Infovis/Core;$(VTK_ROOT)/Infovis/Core;$(VTK_DIR)/IO/Image;$(VTK_ROOT)/IO/Image;$(VTK_DIR)/Imaging/Core;$(VTK_ROOT)/Imaging/Core;$(VTK_DIR)/Imaging/Sources;$(VTK_ROOT)/Imaging/Sources;$(VTK_DIR)/Rendering/FreeType;$(VTK_ROOT)/Rendering/FreeType;$(VTK_DIR)/Rendering/Core;$(VTK_ROOT)/Rendering/Core;$(VTK_DIR)/ThirdParty/freetype/vtkfreetype;$(VTK_ROOT)/ThirdParty/freetype/vtkfreetype;$(VTK_ROOT)/ThirdParty/freetype/vtkfreetype/include;$(VTK_DIR)/ThirdParty/freetype;$(VTK_ROOT)/ThirdParty/freetype;$(VTK_DIR)/ThirdParty/zlib/vtkzlib;$(VTK_ROOT)/ThirdParty/zlib/vtkzlib;$(VTK_DIR)/ThirdParty/zlib;$(VTK_ROOT)/ThirdParty/zlib;$(VTK_DIR)/Interaction/Style;$(VTK_ROOT)/Interaction/Style;$(VTK_DIR)/Rendering/ContextOpenGL2;$(VTK_ROOT)/Rendering/ContextOpenGL2;$(VTK_DIR)/Rendering/Context2D;$(VTK_ROOT)/Rendering/Context2D;$(VTK_DIR)/Rendering/OpenGL2;$(VTK_ROOT)/Rendering/OpenGL2;$(VTK_DIR)/Filters/General;$(VTK_ROOT)/Filters/General;$(VTK_DIR)/Rendering/HyperTreeGrid;$(VTK_ROOT)/Rendering/HyperTreeGrid;$(VTK_DIR)/Rendering/UI;$(VTK_ROOT)/Rendering/UI;$(VTK_DIR)/ThirdParty/glew/vtkglew;$(VTK_ROOT)/ThirdParty/glew/vtkglew;$(VTK_DIR)/ThirdParty/glew;$(VTK_ROOT)/ThirdParty/glew;$(VTK_DIR)/Rendering/GL2PSOpenGL2;$(VTK_ROOT)/Rendering/GL2PSOpenGL2;$(VTK_DIR)/Views/Qt;$(VTK_ROOT)/Views/Qt;$(VTK_DIR)/GUISupport/Qt;$(VTK_ROOT)/GUISupport/Qt;$(VTK_DIR)/Interaction/Widgets;$(VTK_ROOT)/Interaction/Widgets;$(QTDIR)/include/QtOpenGL;$(VTK_DIR)/Views/Core;$(VTK_ROOT)/Views/Core;$(VTK_DIR)/Views/Infovis;$(VTK_ROOT)/Views/Infovis;$(VTK_DIR)/Rendering/Qt;$(VTK_ROOT)/Rendering/Qt;$(VTK_DIR)/Rendering/Label;$(VTK_ROOT)/Rendering/Label;$(VTK_DIR)/Filters/Modeling;$(VTK_ROOT)/Filters/Modeling;$(VTK_DIR)/Filters/Geometry;$(VTK_ROOT)/Filters/Geometry;$(VTK_DIR)/IO/XML;$(VTK_ROOT)/IO/XML;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>release\</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>
+      </ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shell32.lib;C:\SRC\VCPKG\INSTALLED\X64-WINDOWS\lib\bz2.lib;C:\SRC\VCPKG\INSTALLED\X64-WINDOWS\lib\libpng16.lib;C:\SRC\VCPKG\INSTALLED\X64-WINDOWS\lib\icuin.lib;C:\SRC\VCPKG\INSTALLED\X64-WINDOWS\lib\icutu.lib;C:\SRC\VCPKG\INSTALLED\X64-WINDOWS\lib\icuuc.lib;C:\SRC\VCPKG\INSTALLED\X64-WINDOWS\lib\icuio.lib;C:\SRC\VCPKG\INSTALLED\X64-WINDOWS\lib\icudt.lib;Advapi32.lib;C:\SRC\VCPKG\INSTALLED\X64-WINDOWS\lib\zstd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SRC\VCPKG\INSTALLED\X64-WINDOWS\lib;C:\SRC\VCPKG\INSTALLED\X64-WINDOWS\lib\manual-link;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(OutDir)\VtuAnimationView.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>$(Configuration)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtRcc>
+      <InitFuncName>VtuAnimationView</InitFuncName>
+      <Compression>default</Compression>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <QtRccDir>$(Configuration)</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;debug;$(VTK_DIR)/Common/Color;$(VTK_ROOT)/Common/Color;$(VTK_DIR)/Common/Core;$(VTK_ROOT)/Common/Core;$(VTK_DIR)/Utilities/KWIML;$(VTK_ROOT)/Utilities/KWIML;$(VTK_DIR)/Utilities/KWSys;$(VTK_ROOT)/Utilities/KWSys;$(VTK_DIR)/Common/DataModel;$(VTK_ROOT)/Common/DataModel;$(VTK_DIR)/Common/Math;$(VTK_ROOT)/Common/Math;$(VTK_DIR)/ThirdParty/kissfft/vtkkissfft;$(VTK_ROOT)/ThirdParty/kissfft/vtkkissfft;$(VTK_DIR)/ThirdParty/kissfft;$(VTK_ROOT)/ThirdParty/kissfft;$(VTK_DIR)/Common/Transforms;$(VTK_ROOT)/Common/Transforms;$(VTK_DIR)/Filters/Core;$(VTK_ROOT)/Filters/Core;$(VTK_DIR)/Common/ExecutionModel;$(VTK_ROOT)/Common/ExecutionModel;$(VTK_DIR)/Common/Misc;$(VTK_ROOT)/Common/Misc;$(VTK_DIR)/Filters/Sources;$(VTK_ROOT)/Filters/Sources;$(VTK_DIR)/Infovis/Core;$(VTK_ROOT)/Infovis/Core;$(VTK_DIR)/IO/Image;$(VTK_ROOT)/IO/Image;$(VTK_DIR)/Imaging/Core;$(VTK_ROOT)/Imaging/Core;$(VTK_DIR)/Imaging/Sources;$(VTK_ROOT)/Imaging/Sources;$(VTK_DIR)/Rendering/FreeType;$(VTK_ROOT)/Rendering/FreeType;$(VTK_DIR)/Rendering/Core;$(VTK_ROOT)/Rendering/Core;$(VTK_DIR)/ThirdParty/freetype/vtkfreetype;$(VTK_ROOT)/ThirdParty/freetype/vtkfreetype;$(VTK_ROOT)/ThirdParty/freetype/vtkfreetype/include;$(VTK_DIR)/ThirdParty/freetype;$(VTK_ROOT)/ThirdParty/freetype;$(VTK_DIR)/ThirdParty/zlib/vtkzlib;$(VTK_ROOT)/ThirdParty/zlib/vtkzlib;$(VTK_DIR)/ThirdParty/zlib;$(VTK_ROOT)/ThirdParty/zlib;$(VTK_DIR)/Interaction/Style;$(VTK_ROOT)/Interaction/Style;$(VTK_DIR)/Rendering/ContextOpenGL2;$(VTK_ROOT)/Rendering/ContextOpenGL2;$(VTK_DIR)/Rendering/Context2D;$(VTK_ROOT)/Rendering/Context2D;$(VTK_DIR)/Rendering/OpenGL2;$(VTK_ROOT)/Rendering/OpenGL2;$(VTK_DIR)/Filters/General;$(VTK_ROOT)/Filters/General;$(VTK_DIR)/Rendering/HyperTreeGrid;$(VTK_ROOT)/Rendering/HyperTreeGrid;$(VTK_DIR)/Rendering/UI;$(VTK_ROOT)/Rendering/UI;$(VTK_DIR)/ThirdParty/glew/vtkglew;$(VTK_ROOT)/ThirdParty/glew/vtkglew;$(VTK_DIR)/ThirdParty/glew;$(VTK_ROOT)/ThirdParty/glew;$(VTK_DIR)/Rendering/GL2PSOpenGL2;$(VTK_ROOT)/Rendering/GL2PSOpenGL2;$(VTK_DIR)/Views/Qt;$(VTK_ROOT)/Views/Qt;$(VTK_DIR)/GUISupport/Qt;$(VTK_ROOT)/GUISupport/Qt;$(VTK_DIR)/Interaction/Widgets;$(VTK_ROOT)/Interaction/Widgets;$(QTDIR)/include/QtOpenGL;$(VTK_DIR)/Views/Core;$(VTK_ROOT)/Views/Core;$(VTK_DIR)/Views/Infovis;$(VTK_ROOT)/Views/Infovis;$(VTK_DIR)/Rendering/Qt;$(VTK_ROOT)/Rendering/Qt;$(VTK_DIR)/Rendering/Label;$(VTK_ROOT)/Rendering/Label;$(VTK_DIR)/Filters/Modeling;$(VTK_ROOT)/Filters/Modeling;$(VTK_DIR)/Filters/Geometry;$(VTK_ROOT)/Filters/Geometry;$(VTK_DIR)/IO/XML;$(VTK_ROOT)/IO/XML;$(VTK_DIR)/Rendering/Annotation;$(VTK_ROOT)/Rendering/Annotation;$(VTK_DIR)/Rendering/Image;$(VTK_ROOT)/Rendering/Image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>debug\</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Kernel32.lib;Ws2_32.lib;Psapi.lib;Opengl32.lib;Dbghelp.lib;vtkCommonColor-9.2d.lib;vtkCommonExecutionModel-9.2d.lib;vtkCommonComputationalGeometry-9.2d.lib;vtkCommonCore-9.2d.lib;vtkCommonDataModel-9.2d.lib;vtkCommonMath-9.2d.lib;vtkCommonMisc-9.2d.lib;vtkCommonSystem-9.2d.lib;vtkCommonTransforms-9.2d.lib;vtkdoubleconversion-9.2d.lib;vtkexpat-9.2d.lib;vtkfmt-9.2d.lib;vtkFiltersCore-9.2d.lib;vtkFiltersExtraction-9.2d.lib;vtkFiltersGeometry-9.2d.lib;vtkFiltersGeneral-9.2d.lib;vtkFiltersHybrid-9.2d.lib;vtkFiltersHyperTree-9.2d.lib;vtkFiltersModeling-9.2d.lib;vtkFiltersSelection-9.2d.lib;vtkFiltersSources-9.2d.lib;vtkfreetype-9.2d.lib;vtkglew-9.2d.lib;vtkGUISupportQt-9.2d.lib;vtkInteractionStyle-9.2d.lib;vtkInteractionWidgets-9.2d.lib;vtkImagingCore-9.2d.lib;vtkImagingColor-9.2d.lib;vtkIOCore-9.2d.lib;vtkIOLegacy-9.2d.lib;vtkIOInfovis-9.2d.lib;vtkIOImage-9.2d.lib;vtkIOXML-9.2d.lib;vtkIOXMLParser-9.2d.lib;vtkloguru-9.2d.lib;vtkjpeg-9.2d.lib;vtklz4-9.2d.lib;vtklzma-9.2d.lib;vtkParallelCore-9.2d.lib;vtkParallelDIY-9.2d.lib;vtkpugixml-9.2d.lib;vtkRenderingAnnotation-9.2d.lib;vtkRenderingContext2D-9.2d.lib;vtkRenderingContextOpenGL2-9.2d.lib;vtkRenderingCore-9.2d.lib;vtkRenderingFreeType-9.2d.lib;vtkRenderingHyperTreeGrid-9.2d.lib;vtkRenderingImage-9.2d.lib;vtkRenderingOpenGL2-9.2d.lib;vtkRenderingQt-9.2d.lib;vtkRenderingUI-9.2d.lib;vtksys-9.2d.lib;vtkzlib-9.2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VTK_DIR)\lib\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\VtuAnimationView.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_GUI_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>$(Configuration)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtRcc>
+      <InitFuncName>VtuAnimationView</InitFuncName>
+      <Compression>default</Compression>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <QtRccDir>$(Configuration)</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ColorTables.cpp" />
+    <ClCompile Include="ParseFileName.cpp" />
+    <ClCompile Include="ReadFiles.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="mouseinteractorstyle.cpp" />
+    <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="SetupDlg.cpp" />
+    <ClCompile Include="vtuanimationview.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ColorTables.h" />
+    <ClInclude Include="ParseFileName.h" />
+    <ClInclude Include="ReadFiles.h" />
+    <ClInclude Include="mouseinteractorstyle.h" />
+    <ClInclude Include="Settings.h" />
+    <QtMoc Include="SetupDlg.h" />
+    <QtMoc Include="vtuanimationview.h">
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="VtuAnimationView.qrc">
+    </QtRcc>
+    <None Include="res\application-resize-actual.png" />
+    <None Include="res\cell-picking.png" />
+    <None Include="res\cross-button.png" />
+    <None Include="res\document-open.png" />
+    <None Include="res\media-playback-start.png" />
+    <None Include="res\media-playback-stop.png" />
+    <None Include="res\media-skip-backward.png" />
+    <None Include="res\media-skip-forward.png" />
+    <None Include="res\view-x-y.png" />
+    <None Include="res\view-x-z.png" />
+    <None Include="res\view-y-z.png" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
