@@ -72,13 +72,13 @@ vtkSmartPointer<vtkLookupTable> generate_lookup_table_by_idx(int idx, double rg0
 		int sz = it1 - it0;
 		auto transfer_func = vtkSmartPointer<vtkColorTransferFunction>::New();
 		for (int i = 0; i < sz; i++)
-			if (rgb_hsv)
+			if (rgb_hsv[idx])
 				transfer_func->AddRGBPoint(rg0 + (rg1 - rg0) * cmap[it0 + i][0], cmap[it0 + i][1], cmap[it0 + i][2], cmap[it0 + i][3]);
 			else
 				transfer_func->AddHSVPoint(rg0 + (rg1 - rg0) * cmap[it0 + i][0], cmap[it0 + i][1], cmap[it0 + i][2], cmap[it0 + i][3]);
 
 		for (int i = 0; i < num_colors; i++) {
-			float s = (float)i / num_colors;
+			double s = rg0 + (rg1 - rg0) * i / num_colors;
 			double* cc = transfer_func->GetColor(s);
 			lookup_table->SetTableValue(i, cc[0], cc[1], cc[2], 1.0);
 		}
