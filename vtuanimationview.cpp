@@ -86,7 +86,6 @@ VtuAnimationView::VtuAnimationView(QWidget* parent) : QMainWindow(parent)
 	m_renderer = vtkSmartPointer<vtkRenderer>::New();
 	m_actor = vtkSmartPointer<vtkActor>::New();
 	m_dsmapper = vtkSmartPointer<vtkDataSetMapper>::New();
-	m_threshold = vtkSmartPointer<vtkThreshold>::New();
 	m_sbar = vtkSmartPointer<vtkScalarBarActor>::New();
 
 	m_image_slice_callback = new Image_slice_callback(this);
@@ -332,7 +331,6 @@ VtuAnimationView::VtuAnimationView(QWidget* parent) : QMainWindow(parent)
 		vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 		m_qvtk_render_widget->setRenderWindow(renderWindow);
 	}
-	//m_gl_native_widget = new QVTKRenderWidget(centralWidget());
 	m_qvtk_render_widget->setFixedSize(QSize(2000, 2000));
 	m_qvtk_render_widget->renderWindow()->AddRenderer(m_renderer);
 
@@ -343,8 +341,8 @@ VtuAnimationView::VtuAnimationView(QWidget* parent) : QMainWindow(parent)
 
 	m_timer.setInterval(1000);
 	m_timer.setParent(this);
-	connect(&m_timer, &QTimer::timeout, this, &VtuAnimationView::timerUpdate);
 	m_timer.stop();
+	connect(&m_timer, &QTimer::timeout, this, &VtuAnimationView::timer);
 
 	m_settings = new Settings();
 
@@ -362,6 +360,9 @@ VtuAnimationView::~VtuAnimationView()
 	delete m_file_reader;
 	delete m_qvtk_render_widget;
 	delete m_interactor_style;
+
+	for each (auto p in m_data_map)
+		delete p.second;
 }
 
 void VtuAnimationView::openFile()
@@ -372,8 +373,8 @@ void VtuAnimationView::openFile()
 		delete m_file_reader;
 		m_file_reader = new VtuFileReader;
 		bool slice = m_reslice_wgt_btn->isChecked();
-		if (m_file_reader->readVtuFile(true, fname.toUtf8().constData(), m_timer_idx, m_attrs, m_cur_attr_idx, m_settings->m_scalar_threshold, m_settings->m_palette_idx,
-			m_dsmapper, m_range_cell, m_threshold, m_thresh_val, m_sbar, m_image_data_vec, m_image_data_ids, slice, m_lut1, m_lut2)) {
+		if (m_file_reader->readVtuFile(fname.toUtf8().constData(), true, m_attrs, m_cur_attr_idx, m_settings->m_scalar_threshold, m_settings->m_palette_idx,
+			m_dsmapper, m_thresh_val, m_sbar, m_data_map, m_data_idx, slice)) {
 			if (slice)
 				setImageMapper();
 
@@ -384,6 +385,7 @@ void VtuAnimationView::openFile()
 
 			setTree();
 			setTimeSlider();
+			cameraReset();
 			setPositions(false);
 			static bool ini = false;
 			if (!ini) {
@@ -393,7 +395,6 @@ void VtuAnimationView::openFile()
 				m_renderer->AddActor((vtkProp*)m_sbar);
 				m_actor->SetPosition(m_settings->m_actor_position);
 			}
-			m_renderer->GetRenderWindow()->Render();
 			setMsgLabel();
 
 			m_mutex.unlock();		
@@ -406,7 +407,7 @@ void VtuAnimationView::openFile()
 
 void VtuAnimationView::setMsgLabel()
 {
-	auto *img = getCurImageData();
+	vtkImageData* img = m_data_map[m_data_idx]->image_data;
 	if (img) {
 		int num_points = img->GetNumberOfPoints();
 		int num_cells = img->GetNumberOfCells();
@@ -418,13 +419,19 @@ void VtuAnimationView::setMsgLabel()
 		char buf[1000];
 		sprintf(buf, "Величина:%s,Тип:%s,Диапазон(%f,%f),Точек:%d,Ячеек:%d,Размер(%d,%d,%d),Шаг(%f,%f,%f),Начало(%f,%f,%f),Файлов:%d,Текущий:%d",
 			m_attrs[m_cur_attr_idx].c_str(), scalar, rg[0], rg[1], num_points, num_cells, dims[0], dims[1], dims[2], space[0], space[1], space[2], ori[0], ori[1], ori[2],
-			m_image_data_vec.size(), m_timer_idx + 1);
+			m_data_map.size(), m_data_idx);
 		m_sb_msg_text->setText(buf);
 	} else
 		m_sb_msg_text->setText("");
 }
 
-void VtuAnimationView::timerUpdate()
+void VtuAnimationView::timer()
+{
+	m_data_idx++;
+	theTimerUpdate();
+}
+
+void VtuAnimationView::theTimerUpdate()
 {
 	bool act = m_timer.isActive();
 	if (act)
@@ -432,16 +439,14 @@ void VtuAnimationView::timerUpdate()
 	int old = m_file_reader->m_dir_fnames.size();
 	QModelIndex cur = m_tree_view->currentIndex();
 	bool slice = m_reslice_wgt_btn->isChecked();
-	if (m_file_reader->readVtuFile(true, nullptr, m_timer_idx, m_attrs, m_cur_attr_idx, m_settings->m_scalar_threshold, m_settings->m_palette_idx,
-		m_dsmapper, m_range_cell, m_threshold, m_thresh_val, m_sbar, m_image_data_vec, m_image_data_ids, slice, m_lut1, m_lut2)) {
-		int tidx = m_timer_idx > 0 ? m_timer_idx - 1 : 0;
+	if (m_file_reader->readVtuFile(nullptr, false, m_attrs, m_cur_attr_idx, m_settings->m_scalar_threshold, m_settings->m_palette_idx,
+		m_dsmapper, m_thresh_val, m_sbar, m_data_map, m_data_idx, slice)) {
 		if (slice) {
-			auto img = m_image_data_vec[tidx];
 			m_image_mapper->RemoveAllInputs();
-			m_image_mapper->SetInputData(img);
+			m_image_mapper->SetInputData(m_data_map[m_data_idx]->image_data);
 		}
 		setTimeSlider();
-		QModelIndex idx = m_tree_model->index(tidx, 0, m_tree_root->index());
+		QModelIndex idx = m_tree_model->index(m_data_idx, 0, m_tree_root->index());
 		m_tree_view->setCurrentIndex(idx);
 
 		m_renderer->GetRenderWindow()->Render();
@@ -461,10 +466,9 @@ void VtuAnimationView::resizeEvent(QResizeEvent* ev)
 void VtuAnimationView::setTimeSlider()
 {
 	disconnect(m_time_sld, &QSlider::valueChanged, this, &VtuAnimationView::timeLineSldChanged);
-	m_time_sld->setRange(1, m_file_reader->m_dir_fnames.size());
-	int n = m_timer_idx ? m_timer_idx : m_file_reader->m_dir_fnames.size();
-	m_time_sld->setValue(n);
-	m_counter_lb->setText(QString::number(n));
+	m_time_sld->setRange(0, m_file_reader->m_dir_fnames.size() - 1);
+	m_time_sld->setValue(m_data_idx);
+	m_counter_lb->setText(QString::number(m_data_idx));
 	connect(m_time_sld, &QSlider::valueChanged, this, &VtuAnimationView::timeLineSldChanged);
 }
 
@@ -487,8 +491,8 @@ void VtuAnimationView::setTree()
 void VtuAnimationView::mediaToBeginBtn()
 {
 	m_mutex.lock();
-	m_timer_idx = 0;
-	timerUpdate();
+	m_data_idx = 0;
+	theTimerUpdate();
 	m_mutex.unlock();
 }
 
@@ -505,16 +509,16 @@ void VtuAnimationView::mediaStopBtn()
 void VtuAnimationView::mediaToEndBtn()
 {
 	m_mutex.lock();
-	m_timer_idx = m_file_reader->m_dir_fnames.size() - 1;
-	timerUpdate();
+	m_data_idx = m_data_map.size() - 1;
+	theTimerUpdate();
 	m_mutex.unlock();
 }
 
 void VtuAnimationView::timeLineSldChanged(int value)
 {
 	m_mutex.lock();
-	m_timer_idx = value - 1;
-	timerUpdate();
+	m_data_idx = value;
+	theTimerUpdate();
 	m_mutex.unlock();
 }
 
@@ -596,17 +600,13 @@ void VtuAnimationView::channelCbIdxChanged(int idx)
 void VtuAnimationView::scalarThreshold(int value)
 {
 	m_settings->m_scalar_threshold = value;
-	m_thresh_val = value / 100.0 * (m_range_cell[1] - m_range_cell[0]) + m_range_cell[0];
+	data_t* data = m_data_map[m_data_idx];
+	m_thresh_val = value / 100.0 * (data->range_cell[1] - data->range_cell[0]) + data->range_cell[0];
 	bool slice = m_reslice_wgt_btn->isChecked();
 	if (!slice) {
-		m_threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
-		m_threshold->SetUpperThreshold(m_thresh_val);
-		m_threshold->Update();
+		data->threshold_flt->SetUpperThreshold(m_thresh_val);
+		data->threshold_flt->Update();
 	}
-	/*else {
-		m_image_threshold->ThresholdByUpper(m_thresh_val);
-		m_image_threshold->Update();		
-	}*/
 	m_renderer->GetRenderWindow()->Render();
 
 	char buf[40] = { 0 };
@@ -632,7 +632,7 @@ void VtuAnimationView::cellPicking()
 		m_interactor_style = new MouseInteractorStyle(this);
 		m_interactor_style->m_stag = m_attrs[m_cur_attr_idx];
 		m_interactor_style->SetDefaultRenderer(m_renderer);
-		m_interactor_style->m_data = getCurImageData();
+		m_interactor_style->m_data = m_data_map[m_data_idx]->image_data;
 		m_renderer->GetRenderWindow()->GetInteractor()->SetInteractorStyle(m_interactor_style);
 		setCursor(Qt::CrossCursor);
 	}
@@ -644,7 +644,7 @@ void VtuAnimationView::close()
 	m_timer.stop();
 	m_channel_cb->clear();
 	m_attrs.clear();
-	m_timer_idx = 0;
+	m_data_idx = 0;
 	m_cur_attr_idx = 0;
 
 	m_renderer->RemoveActor(m_actor);
@@ -665,8 +665,11 @@ void VtuAnimationView::treeSelectionChanged(const QItemSelection&, const QItemSe
 	QModelIndexList list = m_tree_view->selectionModel()->selectedRows();
 	if (list.size()) {
 		QModelIndex idx = list.at(0);
-		m_timer_idx = idx.row();
-		timerUpdate();
+		int cur = idx.row();
+		if (m_data_idx != cur) {
+			m_data_idx = cur;
+			theTimerUpdate();
+		}
 	}
 	connect(m_tree_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &VtuAnimationView::treeSelectionChanged);
 }
@@ -692,16 +695,17 @@ void VtuAnimationView::setupDlg()
 			m_renderer->SetBackground(c.redF(), c.greenF(), c.blueF());
 			if (m_settings->m_palette_idx != old_idx) {
 				bool slice = m_reslice_wgt_btn->isChecked();
+				data_t* data = m_data_map[m_data_idx];
 				if (!slice) {
-					m_lut1 = generate_lookup_table_by_idx(m_settings->m_palette_idx, m_range_cell[0], m_range_cell[1]);
-					m_dsmapper->SetLookupTable(m_lut1);
-					m_sbar->SetLookupTable(m_lut1);
+					data->lut = generate_lookup_table_by_idx(m_settings->m_palette_idx, data->range_cell[0], data->range_cell[1]);
+					m_dsmapper->SetLookupTable(data->lut);
+					m_sbar->SetLookupTable(data->lut);
 					m_dsmapper->Update();
 				}
 				else {
-					m_lut2 = generate_lookup_table_by_idx(m_settings->m_palette_idx, m_range_cell[0], m_range_cell[1]);
-					m_image_reslice->GetProperty()->SetLookupTable(m_lut2);
-					m_sbar->SetLookupTable(m_lut2);
+					data->lut = generate_lookup_table_by_idx(m_settings->m_palette_idx, data->range_cell[0], data->range_cell[1]);
+					m_image_reslice->GetProperty()->SetLookupTable(data->lut);
+					m_sbar->SetLookupTable(data->lut);
 					m_image_reslice->Update();
 				}
 			}
@@ -710,17 +714,11 @@ void VtuAnimationView::setupDlg()
 	}
 }
 
-vtkImageData* VtuAnimationView::getCurImageData()
-{
-	std::vector<int>::iterator it = std::find(m_image_data_ids.begin(), m_image_data_ids.end(), m_timer_idx - 1);
-	if (it == m_image_data_ids.end())
-		return nullptr;
-	return m_image_data_vec[*it];
-}
-
 void VtuAnimationView::setImageMapper()
 {
-	vtkImageData* img = getCurImageData();
+	data_t *data = m_data_map[m_data_idx];
+	vtkImageData* img = m_data_map[m_data_idx]->image_data;
+
 	double bounds[6];
 	img->GetBounds(bounds);
 	double spacing[3];
@@ -734,16 +732,9 @@ void VtuAnimationView::setImageMapper()
 	center[1] = origin[1] + spacing[1] * 0.5 * (extent[2] + extent[3]);
 	center[2] = origin[2] + spacing[2] * 0.5 * (extent[4] + extent[5]);
 	bounds[0] -= 2 * spacing[2]; bounds[1] += 2 * spacing[2]; bounds[2] -= 2 * spacing[2]; bounds[3] += 2 * spacing[2]; bounds[4] -= 2 * spacing[2]; bounds[5] += 2 * spacing[2];
-	/*
-	m_thresh_val = m_settings->m_scalar_threshold / 100.0 * (m_range_cell[1] - m_range_cell[0]) + m_range_cell[0];
-	m_image_threshold->RemoveAllInputConnections(0);
-	m_image_threshold->SetInputData(img);
-	m_image_threshold->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_POINTS, m_attrs[m_cur_attr_idx].c_str());
-	m_image_threshold->ThresholdByUpper(m_thresh_val);
-	m_image_threshold->Update();
-	*/
+
 	m_image_mapper->RemoveAllInputs();
-	m_image_mapper->SetInputData(img);//m_image_threshold->GetOutput()
+	m_image_mapper->SetInputData(img);
 	double Normal[3], Center[3];
 	m_image_mapper->GetSlicePlane()->GetNormal(Normal);
 	m_image_mapper->GetSlicePlane()->GetOrigin(Center);
@@ -757,8 +748,8 @@ void VtuAnimationView::setImageMapper()
 	m_impl_plane_widget2->SetRepresentation(m_impl_plane_repr);
 	m_impl_plane_widget2->On();
 	
-	m_lut2 = generate_lookup_table_by_idx(m_settings->m_palette_idx, m_range_cell[0], m_range_cell[1]);
-	m_image_reslice->GetProperty()->SetLookupTable(m_lut2);
+	data->lut = generate_lookup_table_by_idx(m_settings->m_palette_idx, data->range_cell[0], data->range_cell[1]);
+	m_image_reslice->GetProperty()->SetLookupTable(data->lut);
 	m_image_reslice->GetProperty()->UseLookupTableScalarRangeOn();
 	m_image_reslice->GetProperty()->SetInterpolationType(VTK_CUBIC_INTERPOLATION);
 	m_image_reslice->SetMapper(m_image_mapper);
@@ -773,7 +764,7 @@ void VtuAnimationView::setImageMapper()
 
 void VtuAnimationView::planeWidget()
 {
-	if (m_reslice_wgt_btn->isChecked() && getCurImageData()) {
+	if (m_reslice_wgt_btn->isChecked()) {
 		setImageMapper();
 	}
 	else {

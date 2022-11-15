@@ -30,92 +30,101 @@ using namespace std;
 #include "ParseFileName.h"
 #include "ColorTables.h"
 
-bool VtuFileReader::readVtuFile(bool init, const char* fname, int& timer_idx, std::vector<std::string>& attrs, int attr_idx, int threshold, int palette_idx,
-	vtkDataSetMapper* dsmapper, double* range_cell, vtkThreshold* threshold_flt, double& thresh_val, vtkScalarBarActor* sbar, 
-	std::vector<vtkSmartPointer<vtkImageData>>& image_data_vec, std::vector<int>& image_data_ids, bool slice, vtkSmartPointer<vtkLookupTable> &lut1, vtkSmartPointer<vtkLookupTable>& lut2)
+bool VtuFileReader::readVtuFile(const char* fname, bool init, std::vector<std::string>& attrs, int attr_idx, int threshold, int palette_idx,
+	vtkDataSetMapper* dsmapper, double& thresh_val, vtkScalarBarActor* sbar, std::map<int, data_t*>& data_map, int& data_idx, bool slice)
 {
-	std::vector<int>::iterator it;
-	if ((it = std::find(image_data_ids.begin(), image_data_ids.end(), timer_idx)) == image_data_ids.end()) {
-		vtkNew<vtkXMLUnstructuredGridReader> unstruct_reader;
-		vtkNew<vtkResampleToImage> resample_to_image;
-		vtkNew<vtkCellDataToPointData> cell_to_point;
+	if (fname && m_path.empty())
+		m_path = parseDirName(fname);
+	if (m_dir_fnames.empty())
+		scanVtuDir(m_path.c_str());
+	if (m_dir_fnames.empty()) {
+		qDebug() << "dir fnames is empty";
+		return false;
+	}
+	if (fname)
+		data_idx = 0;
+	if (data_idx >= m_dir_fnames.size())
+		data_idx = 0;
 
-		if (fname && (m_path.empty() || timer_idx == m_dir_fnames.size() - 1))
-			m_path = parseDirName(fname);
-		if (m_dir_fnames.empty() || timer_idx == m_dir_fnames.size() - 1)
-			scanVtuDir(m_path.c_str());
-		if (m_dir_fnames.empty()) {
-			qDebug() << "dir fnames is empty";
+	data_t* data = data_map[data_idx];
+	if (!data) {
+		data_t* data = new data_t();
+
+		string name = m_path + "/" + m_dir_fnames[data_idx];
+		QFileInfo fileinfo(name.c_str());
+		if (!fileinfo.isFile()) {
+			qDebug() << name.c_str() << " is not file";
+			delete data;
 			return false;
 		}
-		if (fname || timer_idx >= m_dir_fnames.size())
-			timer_idx = 0;
-
-		string name = m_path + "/" + m_dir_fnames[timer_idx];
-		unstruct_reader->SetFileName(name.c_str());
-		unstruct_reader->Update();
-		if (!unstruct_reader->GetOutput()) {
+		data->unstruct_reader->SetFileName(name.c_str());
+		data->unstruct_reader->Update();
+		if (!data->unstruct_reader->GetOutput()) {
 			qDebug() << "grid is null";
+			delete data;
 			return false;
 		}
 		if (init) {
-			auto* grid = unstruct_reader->GetOutput();
+			auto* grid = data->unstruct_reader->GetOutput();
 			int n = grid->GetCellData()->GetNumberOfArrays();
 			attrs.clear();
 			for (int i = 0; i < n; i++)
 				attrs.push_back(grid->GetCellData()->GetArrayName(i));
 			if (attrs.empty()) {
 				qDebug() << "Attrs is empty";
+				delete data;
 				return false;
 			}
 		}
-		if (unstruct_reader->GetOutput()->GetCellData()->SetActiveAttribute(attrs[attr_idx].c_str(), vtkDataSetAttributes::SCALARS) == -1) {
+		if (data->unstruct_reader->GetOutput()->GetCellData()->SetActiveAttribute(attrs[attr_idx].c_str(), vtkDataSetAttributes::SCALARS) == -1) {
 			qDebug() << "Attribute " << attrs[attr_idx].c_str() << " is abscent";
+			delete data;
 			return false;
 		}
-		double* p_rg = unstruct_reader->GetOutput()->GetCellData()->GetScalars(attrs[attr_idx].c_str())->GetRange();
+		double* p_rg = data->unstruct_reader->GetOutput()->GetCellData()->GetScalars(attrs[attr_idx].c_str())->GetRange();
 		if (!p_rg || std::fabs(p_rg[1] - p_rg[0]) < DBL_EPSILON) {
 			qDebug() << "Scalar " << attrs[attr_idx].c_str() << " is flat";
+			delete data;
 			return false;
 		}
-		range_cell[0] = p_rg[0];
-		range_cell[1] = p_rg[1];
+		data->range_cell[0] = p_rg[0];
+		data->range_cell[1] = p_rg[1];
 
-		cell_to_point->SetInputConnection(unstruct_reader->GetOutputPort());
-		cell_to_point->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_CELLS, attrs[attr_idx].c_str());
+		data->cell_to_point->SetInputConnection(data->unstruct_reader->GetOutputPort());
+		data->cell_to_point->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_CELLS, attrs[attr_idx].c_str());
 
-		resample_to_image->SetInputConnection(cell_to_point->GetOutputPort());
-		resample_to_image->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_POINTS, attrs[attr_idx].c_str());
-		resample_to_image->SetUseInputBounds(true);
-		resample_to_image->SetSamplingDimensions(100, 100, 100);
-		resample_to_image->Update();
+		data->resample_to_image->SetInputConnection(data->cell_to_point->GetOutputPort());
+		data->resample_to_image->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_POINTS, attrs[attr_idx].c_str());
+		data->resample_to_image->SetUseInputBounds(true);
+		data->resample_to_image->SetSamplingDimensions(100, 100, 100);
+		data->resample_to_image->Update();
 
-		vtkSmartPointer<vtkImageData> image_data = vtkSmartPointer<vtkImageData>::New();
-		image_data->DeepCopy(resample_to_image->GetOutput());
-		image_data_vec.push_back(image_data);
-		image_data_ids.push_back(timer_idx);
-		it = image_data_ids.begin() + timer_idx;
+		//data->data->DeepCopy(data->resample_to_image->GetOutput());
+		data->image_data = data->resample_to_image->GetOutput();
+		data_map[data_idx] = data;
 	}
+	data = data_map[data_idx];
+	data->lut = generate_lookup_table_by_idx(palette_idx, data->range_cell[0], data->range_cell[1]);
 	if (!slice) {
-		thresh_val = threshold / 100.0 * (range_cell[1] - range_cell[0]) + range_cell[0];
+		thresh_val = threshold / 100.0 * (data->range_cell[1] - data->range_cell[0]) + data->range_cell[0];
 
-		threshold_flt->RemoveAllInputConnections(0);
-		threshold_flt->SetInputData(image_data_vec[*it]);
-		threshold_flt->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_POINTS, attrs[attr_idx].c_str());
-		threshold_flt->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
-		threshold_flt->SetUpperThreshold(thresh_val);
-		threshold_flt->Update();
+		data->threshold_flt->SetInputData(data->unstruct_reader->GetOutput());//image_data
+		//threshold_flt->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_POINTS, attrs[attr_idx].c_str());
+		data->threshold_flt->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_CELLS, attrs[attr_idx].c_str());
+		data->threshold_flt->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
+		data->threshold_flt->SetUpperThreshold(thresh_val);
+		data->threshold_flt->Update();
 
-		dsmapper->RemoveAllInputConnections(0);
-		dsmapper->SetScalarModeToUsePointData();
-		dsmapper->SetInputConnection(threshold_flt->GetOutputPort());
-		dsmapper->SetScalarRange(range_cell[0], range_cell[1]);
-		lut1 = generate_lookup_table_by_idx(palette_idx, range_cell[0], range_cell[1]);
-		dsmapper->SetLookupTable(lut1);
+		dsmapper->RemoveAllInputs();
+		//dsmapper->SetScalarModeToUsePointData();
+		dsmapper->SetScalarModeToUseCellData();
+		dsmapper->SetInputConnection(data->threshold_flt->GetOutputPort());
+		dsmapper->SetScalarRange(data->range_cell[0], data->range_cell[1]);
+		dsmapper->SetLookupTable(data->lut);
 		dsmapper->Update();
 	}
-	if (init) {		
-		sbar->SetLookupTable(!slice ? lut1 : lut2);
+	if (init) {
+		sbar->SetLookupTable(data->lut);
 		sbar->GetPositionCoordinate()->SetCoordinateSystemToDisplay();
 		sbar->GetPositionCoordinate()->SetValue(1800, 1200, 0.0);
 		sbar->UnconstrainedFontSizeOff();
@@ -126,10 +135,6 @@ bool VtuFileReader::readVtuFile(bool init, const char* fname, int& timer_idx, st
 		sbar->SetTitle(attrs[attr_idx].c_str());
 		sbar->SetLabelFormat("%.2f");
 	}
-	timer_idx++;
-	if (timer_idx >= m_dir_fnames.size())
-		timer_idx = 0;
-
 	return true;
 }
 

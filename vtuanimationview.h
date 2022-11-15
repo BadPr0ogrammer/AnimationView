@@ -16,7 +16,6 @@
 #include <vtkNew.h>
 #include <vtkRenderer.h>
 #include <vtkActor.h>
-//#include <QVTKOpenGLNativeWidget.h>
 #include <QVTKRenderWidget.h>
 #include <vtkUnstructuredGrid.h>
 #include <vtkResampleToImage.h>
@@ -31,7 +30,8 @@
 #include <vtkImageResliceMapper.h>
 #include <vtkImplicitPlaneWidget2.h>
 #include <vtkImplicitPlaneRepresentation.h>
-//#include <vtkImageThreshold.h>
+
+#include "ReadFiles.h"
 
 class MouseInteractorStyle;
 class VtuFileReader;
@@ -59,34 +59,25 @@ public:
 	QStandardItem* m_tree_root = nullptr;
 
 	MouseInteractorStyle* m_interactor_style = nullptr;
-	QVTKRenderWidget* m_qvtk_render_widget = nullptr;//QVTKOpenGLNativeWidget
+	QVTKRenderWidget* m_qvtk_render_widget = nullptr;
 	
 	vtkSmartPointer<vtkRenderer> m_renderer;
 	vtkSmartPointer<vtkActor> m_actor;
 	vtkSmartPointer<vtkDataSetMapper> m_dsmapper;
-	vtkSmartPointer<vtkThreshold> m_threshold;
 	vtkSmartPointer<vtkScalarBarActor> m_sbar;
 	
 	vtkNew<vtkImplicitPlaneWidget2> m_impl_plane_widget2;
 	vtkNew<vtkImplicitPlaneRepresentation> m_impl_plane_repr;
 	vtkNew<vtkImageSlice> m_image_reslice;
 	vtkNew<vtkImageResliceMapper> m_image_mapper;
-//vtkNew<vtkImageThreshold> m_image_threshold;
-
-	vtkSmartPointer<vtkLookupTable> m_lut1;
-	vtkSmartPointer<vtkLookupTable> m_lut2;
 
 	Image_slice_callback* m_image_slice_callback;
-
-	std::vector<vtkSmartPointer<vtkImageData>> m_image_data_vec;
-	std::vector<int> m_image_data_ids;
-
-	double m_range_cell[2]{ 0, 0 };
-	double m_thresh_val = 0;
-
 	VtuFileReader* m_file_reader = nullptr;
 
-	int m_timer_idx = 0;
+	std::map<int, data_t*> m_data_map;
+	int m_data_idx = 0;
+
+	double m_thresh_val = 0;
 	int m_cur_attr_idx = 0;
 	std::vector<std::string> m_attrs;
 	QTimer m_timer;
@@ -99,13 +90,13 @@ public:
 	void resetInteractor();
 	void setPositions(bool actor);
 	void getPositions();
-	vtkImageData* getCurImageData();
 	void setImageMapper();
 	void setMsgLabel();
+	void theTimerUpdate();
 
 public slots:
 	void openFile();
-	void timerUpdate();
+	void timer();
 	void mediaToBeginBtn();
 	void mediaPlayBtn();
 	void mediaStopBtn();
